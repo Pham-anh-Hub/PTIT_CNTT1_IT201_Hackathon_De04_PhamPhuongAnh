@@ -86,7 +86,8 @@ Node *pushToSingle(Node *head, Dish *newDish) {
 // push vao dslk doi, bao gom d-head va mon an can day vao
 dNode *pushToDouble(dNode *d_head, Dish *dish) {
         // tao dNode moi
-        dNode *doneNode = (dNode*)malloc(sizeof(dNode));
+        dNode *doneNode = create_dNode(dish);
+
         if (doneNode == NULL) {
                 printf("Danh sach mon ngung ban da day !!");
                 return d_head;
@@ -155,11 +156,11 @@ Dish *saleOffDish(Node *head, int ID) {
                 Dish *doneDish = head -> dish;
                 Node *temp = head;
                 head = head -> next;
-                free(temp -> dish);
                 free(temp);
+
                 return doneDish;
         }
-        // TH mon an da ban het nam oi giua hoac cuoi
+        // TH mon an da ban het nam o giua hoac cuoi
         Node * current = head;
         while (current -> next != NULL) {
                 if (current -> next -> dish -> id == ID) {
@@ -279,7 +280,8 @@ int main() {
                         case 4:
                                 int offDishID;
                                 printf("Nhap ID mon an da ngung ban: "); scanf("%d", &offDishID);
-                                Dish *saleOff = saleOffDish(head, ID);
+                                Dish *saleOff = saleOffDish(head, offDishID);
+                                printf("Mon an ngung ban %s", saleOff ->name);
                                 dHead = pushToDouble(dHead, saleOff);
                                 if (dHead -> dish == saleOff) {
                                         printf("Cap nhat trang thai thanh cong");
@@ -309,8 +311,11 @@ int main() {
                         case 7:
                                 head = sort(head);
                                 break;
+                        case 8:
+                                break;
                         default:
                                 printf("Vui long chon yeu cau hop le");
+                                break;
                 }
         }while (choice != 8);
         printf("Thoat chuong trinh");
