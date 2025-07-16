@@ -2,6 +2,8 @@
 #include<stdlib.h>
 #include <string.h>
 
+#include "../../anything/CLion 2025.1.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/iso646.h"
+
 // Cau truc Mon an
 typedef struct Drink {
         char drinkName[30];
@@ -32,7 +34,7 @@ Drink *createDrink() {
         fgets(newDrink ->drinkName, 30, stdin);
         newDrink ->drinkName[strlen(newDrink ->drinkName) - 1] = '\0';
         printf(" - Nhap size: "); scanf("%c", &newDrink -> size);
-        printf(" - Nhap gia do uong: "); scanf("%d", &newDrink ->drinkName);
+        printf(" - Nhap gia do uong: "); scanf("%d", &newDrink ->price);
         return newDrink;
 }
 
@@ -72,11 +74,11 @@ Queue *createQueue() {
         return newQueue;
 }
 // Them moi so dien thoai vao hang doi
-void addOrderQueue(Queue *orderQueue, Drink *orderDrink) {
-        Node* newNode = createNode(orderDrink);
+Queue *addOrderQueue(Queue *orderQueue, Drink *orderDrink) {
+        Node *newNode = createNode(orderDrink);
         if (newNode == NULL) {
-                printf("Danh sach cuoc goi day!\n");
-                return;
+                printf("Danh sach do uong da day!\n");
+                return orderQueue;
         }
         if (orderQueue ->front == NULL) {
                 orderQueue -> front = newNode;
@@ -85,6 +87,7 @@ void addOrderQueue(Queue *orderQueue, Drink *orderDrink) {
                 orderQueue -> rear -> next = newNode;
                 orderQueue -> rear = newNode;
         }
+        return orderQueue;
 }
 
 void displayList(Queue *OrderQueue) {
@@ -117,24 +120,26 @@ int main() {
                         case 1:
                                 Drink *newDrink = createDrink();
                                 addOrderQueue(orderQueue, newDrink);
-                                if (head != NULL) {
+                                if (orderQueue ->front != NULL) {
                                         printf("Them mon moi thanh cong !!");
                                 }
                                 break;
                         case 2:
-                                displayList(orderQueue);
                                 break;
                         case 3:
 
                                 break;
                         case 4:
-
+                                displayList(orderQueue);
+                                break;
+                        case 5:
+                                printf("Thoat chuong trinh");
+                                free(orderQueue);
+                                free(cancelStack);
                                 break;
                         default:
                                 printf("Vui long chon yeu cau hop le");
+                                break;
                 }
         }while (choice != 5);
-        printf("Thoat chuong trinh");
-        free(orderQueue);
-        free(cancelStack);
 }
